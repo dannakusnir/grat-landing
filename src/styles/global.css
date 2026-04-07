@@ -134,26 +134,19 @@
 .stagger-children.visible > *:nth-child(19) { opacity: 1; transform: translateY(0); transition-delay: 1080ms; }
 .stagger-children.visible > *:nth-child(20) { opacity: 1; transform: translateY(0); transition-delay: 1140ms; }
 
-/* Card hover lift with 3D tilt */
+/* Card hover lift */
 .card-hover {
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
-  transform-style: preserve-3d;
-  perspective: 1000px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card-hover:hover {
-  transform: translateY(-8px) rotateX(2deg) rotateY(-1deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(196, 163, 90, 0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(196, 163, 90, 0.15);
 }
 
-/* 3D tilt — JS-driven via data attributes */
+/* 3D tilt — JS-driven, desktop only */
 .tilt-card {
-  transform-style: preserve-3d;
-  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
-}
-
-.tilt-card .tilt-inner {
-  transform: translateZ(20px);
+  transition: transform 0.2s ease-out;
 }
 
 /* Pulse glow on CTA buttons */
@@ -254,14 +247,14 @@
   animation: float linear infinite;
 }
 
-/* Glow border on cards */
-@keyframes glowBorder {
-  0%, 100% { border-color: rgba(196, 163, 90, 0.1); }
-  50% { border-color: rgba(196, 163, 90, 0.35); }
+/* Glow border on cards — only on hover */
+.glow-border {
+  border-color: rgba(196, 163, 90, 0.1);
+  transition: border-color 0.4s ease;
 }
 
-.glow-border {
-  animation: glowBorder 4s ease-in-out infinite;
+.glow-border:hover {
+  border-color: rgba(196, 163, 90, 0.4);
 }
 
 /* Timeline line draw */
@@ -306,7 +299,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 4s linear infinite;
+  animation: shimmer 6s linear infinite;
 }
 
 /* List item reveal with slide */
@@ -337,7 +330,6 @@
 /* Parallax section */
 .parallax-bg {
   transition: transform 0.1s linear;
-  will-change: transform;
 }
 
 /* Eyebrow slide-in with line */
@@ -374,15 +366,16 @@
 
 /* Section divider glow */
 @keyframes dividerGlow {
-  0%, 100% { opacity: 0.2; width: 60px; }
-  50% { opacity: 0.8; width: 120px; }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
 }
 
 .divider-glow {
   height: 2px;
+  width: 80px;
   background: var(--color-gold);
   border-radius: 1px;
-  animation: dividerGlow 3s ease-in-out infinite;
+  animation: dividerGlow 4s ease-in-out infinite;
   margin: 0 auto;
 }
 
@@ -488,8 +481,7 @@ input, select, textarea {
 
 /* Magnetic button — JS driven */
 .magnetic-btn {
-  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
+  transition: transform 0.2s ease;
 }
 
 /* Typewriter cursor */
@@ -514,6 +506,11 @@ input, select, textarea {
 
 .pill-float {
   animation: pillFloat ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.stagger-children.visible .pill-float {
+  animation-play-state: running;
 }
 
 .pill-float:hover {
@@ -581,7 +578,7 @@ details.faq-item:hover {
 
 .bg-drift {
   background-size: 200% 200%;
-  animation: bgDrift 15s ease-in-out infinite;
+  animation: bgDrift 30s ease-in-out infinite;
 }
 
 /* Selection color */
@@ -603,7 +600,7 @@ details.faq-item:hover {
     transform: none;
     transition: none;
   }
-  .ken-burns, .cta-pulse, .glow-border, .gold-shimmer {
+  .ken-burns, .cta-pulse, .gold-shimmer {
     animation: none;
   }
   .scroll-indicator, .particle, .divider-glow, .pill-float, .bg-drift {

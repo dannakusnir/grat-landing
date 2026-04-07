@@ -52,19 +52,46 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
   <slot />
 
   <script>
-    // Scroll progress bar
+    // === SINGLE rAF-batched scroll handler ===
     const progressBar = document.getElementById('scroll-progress');
+    const scrollIndicator = document.querySelector('.scroll-indicator') as HTMLElement | null;
+    const parallaxSections = document.querySelectorAll('.parallax-section');
+    let ticking = false;
 
-    function updateScrollProgress() {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-      if (progressBar) {
-        progressBar.style.transform = `scaleX(${progress})`;
-      }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        // Progress bar
+        if (progressBar) {
+          progressBar.style.transform = `scaleX(${docHeight > 0 ? scrollY / docHeight : 0})`;
+        }
+
+        // Scroll indicator fade
+        if (scrollIndicator) {
+          scrollIndicator.style.opacity = scrollY > 200 ? '0' : '1';
+        }
+
+        // Parallax patterns
+        parallaxSections.forEach((section) => {
+          const rect = (section as HTMLElement).getBoundingClientRect();
+          const pattern = section.querySelector('.parallax-pattern') as HTMLElement;
+          if (pattern && rect.top < window.innerHeight && rect.bottom > 0) {
+            const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+            pattern.style.transform = `translateY(${(progress - 0.5) * 30}px)`;
+          }
+        });
+
+        ticking = false;
+      });
     }
 
-    // Intersection Observer for all reveal animations
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // === Intersection Observer for reveals (single observer) ===
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -74,16 +101,14 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
     );
 
     document.querySelectorAll(
       '.fade-in, .gold-line, .slide-in-left, .slide-in-right, .scale-up, .stagger-children, .eyebrow-reveal, .circle-pop, .timeline-line, .list-reveal'
-    ).forEach((el) => {
-      observer.observe(el);
-    });
+    ).forEach((el) => observer.observe(el));
 
-    // Count-up animation
+    // === Count-up (fires once per element) ===
     const countObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -93,7 +118,7 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
             const prefix = el.dataset.prefix || '';
             const suffix = el.dataset.suffix || '';
             let current = 0;
-            const step = Math.ceil(target / 40);
+            const step = Math.ceil(target / 30);
             const timer = setInterval(() => {
               current += step;
               if (current >= target) {
@@ -101,7 +126,7 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
                 clearInterval(timer);
               }
               el.textContent = prefix + current.toLocaleString() + suffix;
-            }, 30);
+            }, 35);
             countObserver.unobserve(el);
           }
         });
@@ -109,90 +134,53 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
       { threshold: 0.5 }
     );
 
-    document.querySelectorAll('.count-up').forEach((el) => {
-      countObserver.observe(el);
-    });
+    document.querySelectorAll('.count-up').forEach((el) => countObserver.observe(el));
 
-    // Parallax on scroll (subtle background movement)
-    const parallaxElements = document.querySelectorAll('.parallax-bg');
-
-    function handleScroll() {
-      updateScrollProgress();
-
-      // Parallax
-      const scrollY = window.scrollY;
-      parallaxElements.forEach((el) => {
-        const rect = (el as HTMLElement).getBoundingClientRect();
-        const speed = 0.03;
-        const yPos = -(rect.top * speed);
-        (el as HTMLElement).style.transform = `translateY(${yPos}px)`;
-      });
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    // Hide scroll indicator on scroll
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 200) {
-          (scrollIndicator as HTMLElement).style.opacity = '0';
-          (scrollIndicator as HTMLElement).style.transition = 'opacity 0.5s ease';
-        } else {
-          (scrollIndicator as HTMLElement).style.opacity = '1';
-        }
-      }, { passive: true });
-    }
-
-    // Magnetic buttons — follow cursor within proximity
+    // === Magnetic buttons — rAF throttled ===
     document.querySelectorAll('.magnetic-btn').forEach((btn) => {
       const el = btn as HTMLElement;
+      let rafId = 0;
 
       el.addEventListener('mousemove', (e: Event) => {
-        const evt = e as MouseEvent;
-        const rect = el.getBoundingClientRect();
-        const x = evt.clientX - rect.left - rect.width / 2;
-        const y = evt.clientY - rect.top - rect.height / 2;
-        el.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const evt = e as MouseEvent;
+          const rect = el.getBoundingClientRect();
+          const x = evt.clientX - rect.left - rect.width / 2;
+          const y = evt.clientY - rect.top - rect.height / 2;
+          el.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
+        });
       });
 
       el.addEventListener('mouseleave', () => {
-        el.style.transform = 'translate(0, 0)';
+        cancelAnimationFrame(rafId);
+        el.style.transform = '';
       });
     });
 
-    // 3D tilt on cards
-    document.querySelectorAll('.tilt-card').forEach((card) => {
-      const el = card as HTMLElement;
+    // === 3D tilt on cards — rAF throttled, desktop only ===
+    if (window.matchMedia('(pointer: fine)').matches) {
+      document.querySelectorAll('.tilt-card').forEach((card) => {
+        const el = card as HTMLElement;
+        let rafId = 0;
 
-      el.addEventListener('mousemove', (e: Event) => {
-        const evt = e as MouseEvent;
-        const rect = el.getBoundingClientRect();
-        const x = (evt.clientX - rect.left) / rect.width - 0.5;
-        const y = (evt.clientY - rect.top) / rect.height - 0.5;
-        el.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
-        el.style.boxShadow = `${-x * 20}px ${y * 20}px 30px rgba(0,0,0,0.15)`;
-      });
+        el.addEventListener('mousemove', (e: Event) => {
+          cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            const evt = e as MouseEvent;
+            const rect = el.getBoundingClientRect();
+            const x = (evt.clientX - rect.left) / rect.width - 0.5;
+            const y = (evt.clientY - rect.top) / rect.height - 0.5;
+            el.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
+          });
+        });
 
-      el.addEventListener('mouseleave', () => {
-        el.style.transform = 'perspective(800px) rotateY(0) rotateX(0) translateY(0)';
-        el.style.boxShadow = '';
+        el.addEventListener('mouseleave', () => {
+          cancelAnimationFrame(rafId);
+          el.style.transform = '';
+        });
       });
-    });
-
-    // Parallax depth on section backgrounds
-    const sections = document.querySelectorAll('.parallax-section');
-    window.addEventListener('scroll', () => {
-      sections.forEach((section) => {
-        const rect = (section as HTMLElement).getBoundingClientRect();
-        const pattern = section.querySelector('.parallax-pattern') as HTMLElement;
-        if (pattern && rect.top < window.innerHeight && rect.bottom > 0) {
-          const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-          pattern.style.transform = `translateY(${(progress - 0.5) * 40}px)`;
-        }
-      });
-    }, { passive: true });
+    }
   </script>
 </body>
 </html>
