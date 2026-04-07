@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0B1D3A;
+  --color-navy-dark: #152847;
+  --color-navy-deep: #0A1628;
+  --color-charcoal: #1A1A2E;
+  --color-gold: #C4A35A;
+  --color-gold-warm: #D4B96C;
+  --color-gold-dim: rgba(196, 163, 90, 0.2);
+  --color-offwhite: #F5F2EC;
+  --color-gray-light: #B8B5AE;
+  --color-green-muted: #4A7C59;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Montserrat', 'Inter', system-ui, sans-serif;
+  --font-hebrew: 'Heebo', 'Assistant', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-navy);
+    color: var(--color-offwhite);
+    line-height: 1.7;
+    font-size: 1.0625rem;
+  }
+
+  [dir="rtl"] body {
+    font-family: var(--font-hebrew);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3 {
+    font-family: var(--font-hebrew);
+    letter-spacing: 0;
+  }
+
+  /* Slightly larger base on mobile for readability */
+  @media (max-width: 768px) {
+    body {
+      font-size: 1.0625rem;
+    }
+  }
+}
+
+/* Fade-in animation with more depth */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gold line draw-in */
+.gold-line {
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.gold-line.visible {
+  width: 100%;
+}
+
+/* Ken Burns hero */
+@keyframes kenBurns {
+  from { transform: scale(1); }
+  to { transform: scale(1.04); }
+}
+
+.ken-burns {
+  animation: kenBurns 20s ease-in-out forwards;
+}
+
+/* Count-up number */
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+
+/* FAQ details animation */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] > div {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-dim);
+  border-radius: 3px;
+}
+
+/* Form focus styles */
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(196, 163, 90, 0.3);
+  color: var(--color-offwhite);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .ken-burns {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  details[open] > div {
+    animation: none;
+  }
+}

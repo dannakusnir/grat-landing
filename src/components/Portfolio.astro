@@ -1,0 +1,136 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'RECENT PROJECTS',
+    h2: 'Real numbers. Real properties.',
+    disclaimer: 'Past performance does not guarantee future results. Each investment carries its own risk profile and timeline.',
+    labels: { purchase: 'Purchase', renovation: 'Renovation', total: 'Total', sale: 'Sale Price', net: 'Net Return', roi: 'ROI', timeline: 'Timeline', months: 'months', before: 'Before', after: 'After' },
+  },
+  he: {
+    eyebrow: 'פרויקטים שביצענו',
+    h2: 'לא הבטחות, תוצאות.',
+    disclaimer: 'ביצועי עבר אינם מבטיחים תוצאות עתידיות. לכל השקעה פרופיל סיכון ולוח זמנים משלה.',
+    labels: { purchase: 'רכישה', renovation: 'שיפוץ', total: 'סה"כ', sale: 'מחיר מכירה', net: 'תשואה נטו', roi: 'ROI', timeline: 'ציר זמן', months: 'חודשים', before: 'לפני', after: 'אחרי' },
+  },
+};
+
+const t = content[lang as keyof typeof content];
+
+const projects = [
+  {
+    before: '/images/before-living.jpg',
+    after: '/images/after-living.jpg',
+    location: 'South Shore, Chicago',
+    type: 'Single-Family Flip',
+    purchase: 145000, renovation: 48000, total: 203000, sale: 279000, net: 76000, roi: 37, timeline: 5.5,
+  },
+  {
+    before: '/images/before-bathroom.jpg',
+    after: '/images/after-bathroom.jpg',
+    location: 'Hermosa, Chicago',
+    type: 'Single-Family Flip',
+    purchase: 182000, renovation: 62000, total: 253000, sale: 329000, net: 76000, roi: 30, timeline: 6,
+  },
+  {
+    before: '/images/before-kitchen.jpg',
+    after: '/images/after-kitchen.jpg',
+    location: 'Auburn Gresham, Chicago',
+    type: 'Single-Family Flip',
+    purchase: 125000, renovation: 55000, total: 189000, sale: 265000, net: 76000, roi: 40, timeline: 4.5,
+  },
+];
+
+function formatMoney(n: number) {
+  return '$' + n.toLocaleString('en-US');
+}
+---
+
+<section class="bg-[#101c30] py-20 md:py-28 lg:py-32">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-12 md:mb-16 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+        {t.h2}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+      {projects.map((p, i) => (
+        <div class="bg-navy-dark/60 border border-gold/10 rounded-lg overflow-hidden fade-in" style={`transition-delay: ${i * 150}ms`}>
+          {/* Before/After Slider */}
+          <div class="ba-slider relative aspect-[4/3] overflow-hidden cursor-col-resize select-none" data-index={i}>
+            <img src={p.after} alt="After" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+            <div class="ba-before absolute inset-0 overflow-hidden" style="width: 50%;">
+              <img src={p.before} alt="Before" class="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div class="ba-handle absolute top-0 bottom-0 flex items-center justify-center z-10" style="left: 50%; transform: translateX(-50%);">
+              <div class="w-0.5 h-full bg-gold/90"></div>
+              <div class="absolute w-10 h-10 rounded-full bg-gold flex items-center justify-center shadow-lg shadow-black/30">
+                <svg class="w-5 h-5 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="11 17 6 12 11 7"/>
+                  <polyline points="13 7 18 12 13 17"/>
+                </svg>
+              </div>
+            </div>
+            <span class="absolute top-3 left-3 bg-navy/80 text-offwhite text-xs font-bold px-2.5 py-1 rounded backdrop-blur-sm z-20">{t.labels.before}</span>
+            <span class="absolute top-3 right-3 bg-gold text-navy text-xs font-bold px-2.5 py-1 rounded z-20">{t.labels.after}</span>
+          </div>
+
+          {/* Data */}
+          <div class="p-5 md:p-6">
+            <h3 class="text-lg font-bold mb-1">{p.location}</h3>
+            <p class="text-gray-light text-sm mb-4">{p.type}</p>
+            <div class="space-y-2 text-sm font-mono">
+              <div class="flex justify-between"><span class="text-gray-light">{t.labels.purchase}</span><span>{formatMoney(p.purchase)}</span></div>
+              <div class="flex justify-between"><span class="text-gray-light">{t.labels.renovation}</span><span>{formatMoney(p.renovation)}</span></div>
+              <div class="flex justify-between"><span class="text-gray-light">{t.labels.total}</span><span>{formatMoney(p.total)}</span></div>
+              <div class="flex justify-between"><span class="text-gray-light">{t.labels.sale}</span><span>{formatMoney(p.sale)}</span></div>
+              <div class="border-t border-gold/20 my-3"></div>
+              <div class="flex justify-between font-semibold"><span class="text-gray-light">{t.labels.net}</span><span>{formatMoney(p.net)}</span></div>
+              <div class="flex justify-between font-semibold"><span class="text-gray-light">{t.labels.roi}</span><span class="text-gold text-lg">{p.roi}%</span></div>
+              <div class="flex justify-between"><span class="text-gray-light">{t.labels.timeline}</span><span>{p.timeline} {t.labels.months}</span></div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-center text-gray-light/40 text-xs mt-8 max-w-xl mx-auto fade-in">
+      {t.disclaimer}
+    </p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.ba-slider').forEach((slider) => {
+    const beforeEl = slider.querySelector('.ba-before') as HTMLElement;
+    const handleEl = slider.querySelector('.ba-handle') as HTMLElement;
+    if (!beforeEl || !handleEl) return;
+
+    let isDragging = false;
+
+    function update(x: number) {
+      const rect = (slider as HTMLElement).getBoundingClientRect();
+      let pct = ((x - rect.left) / rect.width) * 100;
+      pct = Math.max(3, Math.min(97, pct));
+      beforeEl.style.width = pct + '%';
+      handleEl.style.left = pct + '%';
+    }
+
+    slider.addEventListener('mousedown', (e) => { isDragging = true; update((e as MouseEvent).clientX); });
+    document.addEventListener('mousemove', (e) => { if (!isDragging) return; e.preventDefault(); update(e.clientX); });
+    document.addEventListener('mouseup', () => { isDragging = false; });
+
+    slider.addEventListener('touchstart', (e) => { isDragging = true; update((e as TouchEvent).touches[0].clientX); }, { passive: true });
+    document.addEventListener('touchmove', (e) => { if (!isDragging) return; update((e as TouchEvent).touches[0].clientX); }, { passive: true });
+    document.addEventListener('touchend', () => { isDragging = false; });
+  });
+</script>

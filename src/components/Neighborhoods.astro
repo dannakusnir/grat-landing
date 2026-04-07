@@ -1,0 +1,66 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'WHERE WE OPERATE',
+    h2: 'Chicago neighborhoods we know inside out.',
+    sub: 'We focus on areas with strong value potential, growing demand and proven resale performance.',
+  },
+  he: {
+    eyebrow: 'איפה אנחנו פועלים',
+    h2: 'שכונות בשיקגו שאנחנו מכירים לעומק.',
+    sub: 'אנחנו מתמקדים באזורים עם פוטנציאל ערך גבוה, ביקוש הולך וגדל וביצועי מכירה מוכחים.',
+  },
+};
+
+const t = content[lang as keyof typeof content];
+
+const neighborhoods = [
+  'South Shore', 'Auburn Gresham', 'Portage Park', 'Hermosa',
+  'Jefferson Park', 'Beverly', 'Bridgeport', 'Austin',
+  'Garfield Park', 'Humboldt Park', 'Logan Square', 'Irving Park',
+  'Albany Park', 'Rogers Park', 'Englewood', 'Chatham',
+  'Roseland', 'Washington Heights', 'Mount Greenwood', 'Clearing',
+];
+---
+
+<section class="bg-[#0d1a2f] py-20 md:py-28 lg:py-32 relative overflow-hidden">
+  <!-- Decorative background -->
+  <div class="absolute inset-0 opacity-[0.03]">
+    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(196,163,90,0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-12 md:mb-16 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
+        {t.h2}
+      </h2>
+      <p class="text-gray-light text-lg md:text-xl max-w-2xl mx-auto">
+        {t.sub}
+      </p>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-3 md:gap-4 max-w-4xl mx-auto fade-in" style="transition-delay: 200ms">
+      {neighborhoods.map((name, i) => (
+        <span
+          class="px-4 py-2.5 md:px-5 md:py-3 border border-gold/20 rounded-full text-sm md:text-base text-offwhite/80 hover:border-gold/50 hover:text-gold hover:bg-gold/5 transition-all duration-300 cursor-default"
+          style={`animation-delay: ${i * 50}ms`}
+        >
+          {name}
+        </span>
+      ))}
+    </div>
+
+    <p class="text-center text-gray-light/40 text-sm mt-8 fade-in">
+      {lang === 'he' ? 'ועוד שכונות נוספות באזור שיקגו' : 'And additional neighborhoods across the Chicago area'}
+    </p>
+  </div>
+</section>

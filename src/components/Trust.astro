@@ -1,0 +1,105 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'WHY GRAT',
+    h2_1: "We don't manage from a distance.",
+    h2_2: "We're on the ground.",
+    blocks: [
+      {
+        icon: 'hands',
+        title: 'Hands-On Execution',
+        desc: 'Every project is managed through our own eyes and hands. We built our teams on the ground: contractors, inspectors, legal. No middlemen.',
+      },
+      {
+        icon: 'globe',
+        title: 'Cross-Border Fluency',
+        desc: 'Real estate experience in both Israel and the U.S. We speak your language and the language of the market here.',
+      },
+      {
+        icon: 'legal',
+        title: 'Legal Structure',
+        desc: 'Licensed operations. Title company escrow. Insured contractors. Full U.S. legal compliance at every step.',
+      },
+      {
+        icon: 'eye',
+        title: 'Full Transparency',
+        desc: 'Detailed reporting on every dollar: acquisition, renovation and sale. No hidden fees, no end-of-project surprises.',
+      },
+    ],
+  },
+  he: {
+    eyebrow: 'למה GRAT',
+    h2_1: 'אנחנו לא יושבים במשרד',
+    h2_2: 'ומנהלים מרחוק.',
+    blocks: [
+      {
+        icon: 'hands',
+        title: 'הנדס און. בשטח.',
+        desc: 'אנחנו פה, בשיקגו. עם הידיים ועם העיניים. כל פרויקט מנוהל דרכנו, עם צוותים מקצועיים שאנחנו בנינו. לא מתווכים, לא ספקים מהאינטרנט.',
+      },
+      {
+        icon: 'globe',
+        title: 'ניסיון בשני הצדדים',
+        desc: 'ניסיון נדל"ני בישראל ובארה"ב. אנחנו מדברים את השפה שלך וגם את השפה של השוק פה.',
+      },
+      {
+        icon: 'legal',
+        title: 'מבנה משפטי אמריקאי',
+        desc: 'פעילות מורשית. נאמנות דרך חברת טייטל. קבלנים מבוטחים. כל שלב לפי החוק.',
+      },
+      {
+        icon: 'eye',
+        title: 'שקיפות בזמן אמת',
+        desc: 'דיווח מפורט על כל דולר: רכישה, שיפוץ ומכירה. בלי עמלות נסתרות, בלי הפתעות בסוף.',
+      },
+    ],
+  },
+};
+
+const t = content[lang as keyof typeof content];
+
+const icons = {
+  hands: `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>`,
+  globe: `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  legal: `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  eye: `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+};
+---
+
+<section class="bg-navy py-20 md:py-28 lg:py-32 relative overflow-hidden">
+  <!-- Subtle pattern -->
+  <div class="absolute inset-0 opacity-[0.02]">
+    <div class="absolute inset-0" style="background-image: linear-gradient(135deg, rgba(196,163,90,0.3) 25%, transparent 25%, transparent 50%, rgba(196,163,90,0.3) 50%, rgba(196,163,90,0.3) 75%, transparent 75%); background-size: 60px 60px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-12 md:mb-16 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.15]">
+        <span class="block">{t.h2_1}</span>
+        <span class="block text-gold">{t.h2_2}</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
+      {t.blocks.map((block, i) => (
+        <div class="border-t-2 border-gold/40 bg-navy-dark/30 p-6 md:p-8 rounded-sm fade-in" style={`transition-delay: ${i * 150}ms`}>
+          <div class="text-gold mb-4" set:html={icons[block.icon as keyof typeof icons]} />
+          <h3 class="text-lg md:text-xl font-bold mb-3">{block.title}</h3>
+          <p class="text-gray-light text-sm md:text-base leading-relaxed">{block.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Bottom gold line -->
+  <div class="mt-20 md:mt-28 mx-auto w-24 h-px bg-gold/30 gold-line"></div>
+</section>

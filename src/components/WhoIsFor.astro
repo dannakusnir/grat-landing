@@ -1,0 +1,100 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'IS THIS FOR YOU?',
+    h2: 'We work with a specific type of investor.',
+    yes: [
+      'You have $50K+ to invest',
+      'You want exposure to U.S. real estate without managing it',
+      'You value structure and transparency',
+      "You're looking for a long-term partner, not a one-time deal",
+      "You're comfortable with a 4 to 7 month cycle",
+    ],
+    no: [
+      "You're looking for guaranteed returns",
+      'You want to manage properties yourself',
+      'You need liquidity within 30 days',
+      'You\'re looking for a "get rich quick" opportunity',
+    ],
+  },
+  he: {
+    eyebrow: 'בוא נהיה ישירים',
+    h2: 'אנחנו לא עובדים עם כולם.',
+    yes: [
+      'יש לך $50K+ ואתה מוכן להשקיע אותם',
+      'אתה רוצה נדל"ן בארה"ב בלי לנהל כלום',
+      'חשוב לך לדעת בדיוק מה קורה עם הכסף שלך',
+      'אתה מחפש שותף לטווח ארוך, לא טריק חד-פעמי',
+      'אתה מבין שתהליך לוקח 4 עד 7 חודשים',
+    ],
+    no: [
+      'אתה מחפש "תשואה מובטחת"',
+      'אתה רוצה להיות מעורב בניהול בשטח',
+      'אתה צריך את הכסף בחזרה תוך חודש',
+      'אתה מחפש קיצור דרך',
+    ],
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section class="bg-[#162b4a] py-20 md:py-28 lg:py-32">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-12 md:mb-16 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+        {t.h2}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-4xl mx-auto">
+      <!-- Yes column -->
+      <div class="fade-in">
+        <ul class="space-y-4">
+          {t.yes.map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="text-gold flex-shrink-0 mt-0.5">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              <span class="text-offwhite text-base leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Divider (mobile) -->
+      <div class="md:hidden w-16 h-px bg-gold/20 mx-auto"></div>
+
+      <!-- No column -->
+      <div class="fade-in" style="transition-delay: 150ms">
+        <ul class="space-y-4">
+          {t.no.map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="text-gray-light/40 flex-shrink-0 mt-0.5">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </span>
+              <span class="text-gray-light/60 text-base leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom gold line -->
+  <div class="mt-20 md:mt-28 mx-auto w-24 h-px bg-gold/30 gold-line"></div>
+</section>

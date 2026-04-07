@@ -1,0 +1,103 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'THE REAL BARRIER',
+    h2: "Most investors don't fail because of the market.",
+    h2_2: 'They fail because they never start.',
+    body: [
+      "You've heard the stories. Friends who bought in Florida. Family who flipped in Texas. Everyone has an opinion.",
+      "But when it's your money, $50K, $100K, $200K, opinions just aren't enough.",
+      'You need a system.',
+      'Without structure, every deal feels like a gamble. With structure, investing becomes a process.',
+    ],
+    chaos: 'Without structure',
+    order: 'With structure',
+    chaosItems: ['Scattered research', 'No clear process', 'Fear of mistakes', 'Paralysis'],
+    orderItems: ['Data-driven decisions', 'Step-by-step system', 'Risk management', 'Clear path forward'],
+  },
+  he: {
+    eyebrow: 'הבעיה האמיתית',
+    h2: 'רוב האנשים לא מפסידים כסף בנדל"ן.',
+    h2_2: 'הם מפסידים אותו כי הם לא מתחילים.',
+    body: [
+      'יש לך חבר שקנה בפלורידה. דוד שעשה פליפ בטקסס. כולם מספרים, אף אחד לא מסביר.',
+      'ואז אתה נשאר עם $50K, $100K, $200K בחשבון, עשר לשוניות פתוחות ואפס החלטות.',
+      'הבעיה היא לא חוסר כסף. הבעיה היא חוסר מבנה.',
+      'כשיש שיטה, כל עסקה הופכת לתהליך. כשאין, כל עסקה נשמעת כמו הימור.',
+    ],
+    chaos: 'בלי מבנה',
+    order: 'עם מבנה',
+    chaosItems: ['מחקר מפוזר', 'בלי תהליך ברור', 'פחד מטעויות', 'שיתוק'],
+    orderItems: ['החלטות מבוססות נתונים', 'שיטה שלב אחרי שלב', 'ניהול סיכונים', 'מסלול ברור קדימה'],
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section class="relative bg-navy-dark py-20 md:py-28 lg:py-32 overflow-hidden">
+  <div class="relative z-10 max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+      <!-- Text block -->
+      <div class="fade-in">
+        <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+          {t.eyebrow}
+        </p>
+
+        <h2 class="text-3xl md:text-4xl lg:text-[42px] font-extrabold leading-[1.15] mb-8">
+          <span class="block">{t.h2}</span>
+          <span class="block text-gold">{t.h2_2}</span>
+        </h2>
+
+        <div class="space-y-5">
+          {t.body.map((paragraph: string, i: number) => (
+            <p class={`text-lg md:text-xl leading-relaxed ${i === 2 ? 'text-offwhite font-semibold text-xl md:text-2xl' : 'text-gray-light'}`}>
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <!-- Visual: Chaos vs Order comparison -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 fade-in" style="transition-delay: 200ms">
+      <!-- Chaos side -->
+      <div class="border border-red-500/20 bg-red-500/5 rounded-lg p-6 md:p-7">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <h3 class="text-red-400 font-bold text-lg">{t.chaos}</h3>
+        </div>
+        <ul class="space-y-2.5">
+          {t.chaosItems.map((item) => (
+            <li class="flex items-center gap-2.5 text-gray-light/60 text-base">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-400/40 flex-shrink-0"></span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Order side -->
+      <div class="border border-gold/30 bg-gold/5 rounded-lg p-6 md:p-7">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <h3 class="text-gold font-bold text-lg">{t.order}</h3>
+        </div>
+        <ul class="space-y-2.5">
+          {t.orderItems.map((item) => (
+            <li class="flex items-center gap-2.5 text-offwhite/80 text-base">
+              <span class="w-1.5 h-1.5 rounded-full bg-gold/60 flex-shrink-0"></span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>

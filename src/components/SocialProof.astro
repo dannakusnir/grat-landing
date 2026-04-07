@@ -1,0 +1,85 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'INVESTOR FEEDBACK',
+    h2: 'What our investors say.',
+    quotes: [
+      {
+        text: "I was looking for a way into U.S. real estate for over a year. GRAT gave me a clear process and I knew exactly what was happening with my money at every stage.",
+        author: 'Investor from Tel Aviv',
+        detail: 'First U.S. investment, $75K',
+      },
+      {
+        text: "The transparency is what sold me. Every dollar documented, every step reported. After the first project I immediately went in for a second.",
+        author: 'Investor from Herzliya',
+        detail: 'Two completed projects',
+      },
+      {
+        text: "I talked to three other companies before GRAT. They were the only ones who showed me the actual numbers and didn't try to oversell anything.",
+        author: 'Investor from Ramat Gan',
+        detail: 'Portfolio investor, $150K+',
+      },
+    ],
+  },
+  he: {
+    eyebrow: 'מה אומרים המשקיעים',
+    h2: 'משקיעים שכבר עובדים איתנו.',
+    quotes: [
+      {
+        text: 'חיפשתי דרך להיכנס לנדל"ן בארה"ב במשך שנה. GRAT נתנו לי תהליך ברור וידעתי בדיוק מה קורה עם הכסף שלי בכל שלב.',
+        author: 'משקיע מתל אביב',
+        detail: 'השקעה ראשונה בארה"ב, $75K',
+      },
+      {
+        text: 'השקיפות היא מה שסגר לי את זה. כל דולר מתועד, כל שלב מדווח. אחרי הפרויקט הראשון נכנסתי מיד לשני.',
+        author: 'משקיע מהרצליה',
+        detail: 'שני פרויקטים שהושלמו',
+      },
+      {
+        text: 'דיברתי עם שלוש חברות אחרות לפני GRAT. הם היו היחידים שהראו לי את המספרים האמיתיים ולא ניסו למכור יותר מדי.',
+        author: 'משקיע מרמת גן',
+        detail: 'משקיע פורטפוליו, $150K+',
+      },
+    ],
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section class="bg-[#F5F2EC] text-navy py-20 md:py-28 lg:py-32">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-12 md:mb-16 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+        {t.h2}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {t.quotes.map((quote, i) => (
+        <div class="bg-white/70 border border-navy/5 rounded-lg p-7 md:p-8 shadow-sm fade-in relative" style={`transition-delay: ${i * 150}ms`}>
+          <!-- Quote mark -->
+          <div class="text-gold/30 text-6xl font-serif leading-none absolute top-4 left-6">"</div>
+
+          <p class="text-navy/80 text-base md:text-lg leading-relaxed mb-6 mt-6 relative z-10">
+            {quote.text}
+          </p>
+
+          <div class="border-t border-navy/10 pt-4">
+            <p class="text-navy font-semibold text-sm">{quote.author}</p>
+            <p class="text-navy/50 text-sm">{quote.detail}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

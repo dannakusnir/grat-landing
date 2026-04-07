@@ -1,0 +1,76 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'THE PROCESS',
+    h2: 'Four steps. Full transparency.',
+    steps: [
+      { num: '01', title: 'Intro Call', desc: 'A short conversation to understand your goals and budget.' },
+      { num: '02', title: 'Match', desc: 'We match your profile with active opportunities in our pipeline.' },
+      { num: '03', title: 'Execute', desc: 'Acquisition and renovation managed end to end. Our team is on site, our eyes, our hands.' },
+      { num: '04', title: 'Exit', desc: 'Property sold or refinanced. Returns distributed back to you.' },
+    ],
+    footer: 'Typical cycle: 4 to 7 months. All funds held in escrow by a licensed title company.',
+  },
+  he: {
+    eyebrow: 'מה קורה בפועל',
+    h2: 'ארבעה שלבים. שום הפתעות.',
+    steps: [
+      { num: '01', title: 'שיחה ראשונה', desc: 'מבינים מה אתה מחפש, מה התקציב ואם בכלל יש פה התאמה.' },
+      { num: '02', title: 'בחירת עסקה', desc: 'מציגים לך הזדמנויות פעילות שמתאימות למטרות ולתקציב שלך.' },
+      { num: '03', title: 'ניהול מלא', desc: 'רכישה, שיפוץ, פיקוח. הכל מנוהל. אתה מעודכן, לא מעורב בשטח.' },
+      { num: '04', title: 'מימוש', desc: 'הנכס נמכר או ממומן מחדש. הכסף חוזר אליך.' },
+    ],
+    footer: 'מחזור טיפוסי: 4 עד 7 חודשים. הכספים מוחזקים בנאמנות אצל חברת טייטל מורשית.',
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section class="bg-[#F5F2EC] text-navy py-20 md:py-28 lg:py-32">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-14 md:mb-20 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+        {t.h2}
+      </h2>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative max-w-4xl mx-auto">
+      <!-- Desktop: horizontal gold line -->
+      <div class="hidden md:block absolute top-[44px] left-[12%] right-[12%] h-px bg-navy/15"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-6">
+        {t.steps.map((step, i) => (
+          <div class="relative fade-in" style={`transition-delay: ${i * 200}ms`}>
+            <div class="flex items-center gap-4 md:flex-col md:items-center mb-4 md:mb-6">
+              <!-- Mobile: line connector -->
+              {i > 0 && <div class="md:hidden absolute -top-5 left-6 w-px h-5 bg-gold/20"></div>}
+              <div class="relative z-10 w-14 h-14 md:w-[76px] md:h-[76px] rounded-full border-2 border-navy bg-navy flex items-center justify-center flex-shrink-0 shadow-lg shadow-navy/10">
+                <span class="text-gold font-bold text-base md:text-lg">{step.num}</span>
+              </div>
+            </div>
+
+            <div class="pl-20 md:pl-0 md:text-center">
+              <h3 class="text-xl font-bold mb-2">{step.title}</h3>
+              <p class="text-navy/60 text-base md:text-lg leading-relaxed">{step.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <p class="text-center text-navy/40 text-base mt-14 md:mt-20 fade-in">
+      {t.footer}
+    </p>
+  </div>
+</section>

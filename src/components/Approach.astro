@@ -1,0 +1,89 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'OUR APPROACH',
+    h2: 'A system, not a sales pitch.',
+    cards: [
+      {
+        icon: 'target',
+        title: 'Strategic Acquisition',
+        desc: 'We find undervalued properties through data analysis and deep local market knowledge.',
+      },
+      {
+        icon: 'blueprint',
+        title: 'Managed Renovation',
+        desc: 'Licensed contractors handle targeted renovations. Every dollar is tracked and accounted for.',
+      },
+      {
+        icon: 'shield',
+        title: 'Protected Exit',
+        desc: 'Sale or refinance, we plan the exit before we enter. No surprises.',
+      },
+    ],
+    footer: 'Every investment follows the same framework. No shortcuts, no exceptions. And when the unexpected happens, we handle it.',
+  },
+  he: {
+    eyebrow: 'איך אנחנו עובדים',
+    h2: 'לא מוכרים חלומות. מפעילים שיטה.',
+    cards: [
+      {
+        icon: 'target',
+        title: 'איתור ממוקד',
+        desc: 'אנחנו לא מחכים לעסקאות, אנחנו מאתרים אותן. ניתוח שוק, נתונים והכרת השטח ברמת הרחוב.',
+      },
+      {
+        icon: 'blueprint',
+        title: 'שיפוץ מבוקר',
+        desc: 'קבלנים מורשים, תקציב סגור מראש. כל שקל מתועד, מדווח ומבוקר.',
+      },
+      {
+        icon: 'shield',
+        title: 'יציאה מתוכננת',
+        desc: 'אנחנו יודעים איך יוצאים מהעסקה עוד לפני שנכנסים. מכירה או מימון מחדש, הכל מתוכנן מראש.',
+      },
+    ],
+    footer: 'אותו מבנה. כל פעם. בלי אילתורים. וכשמשהו לא צפוי קורה, אנחנו יודעים להתמודד.',
+  },
+};
+
+const t = content[lang as keyof typeof content];
+
+const icons = {
+  target: `<svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  blueprint: `<svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="8" y1="3" x2="8" y2="21"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="2" y1="15" x2="8" y2="15"/></svg>`,
+  shield: `<svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+};
+---
+
+<section class="bg-[#0f2440] py-20 md:py-28 lg:py-32">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-12 md:mb-16 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+        {t.h2}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-16">
+      {t.cards.map((card, i) => (
+        <div class="border-t-2 border-gold/60 bg-navy/40 backdrop-blur-sm p-7 md:p-9 rounded-lg fade-in hover:bg-navy/60 transition-colors duration-300" style={`transition-delay: ${i * 150}ms`}>
+          <div class="text-gold mb-5" set:html={icons[card.icon as keyof typeof icons]} />
+          <h3 class="text-xl md:text-2xl font-bold mb-3">{card.title}</h3>
+          <p class="text-gray-light text-base md:text-lg leading-relaxed">{card.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-center text-gray-light/70 text-base italic fade-in">
+      {t.footer}
+    </p>
+  </div>
+</section>

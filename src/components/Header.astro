@@ -1,0 +1,57 @@
+---
+interface Props {
+  lang?: string;
+  ctaText?: string;
+  altLangUrl?: string;
+  altLangLabel?: string;
+}
+
+const {
+  lang = 'en',
+  ctaText = 'Book a Call',
+  altLangUrl = '/he',
+  altLangLabel = 'עב'
+} = Astro.props;
+---
+
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#F0EDE5]">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-8 flex items-center justify-between h-20 md:h-24">
+    <!-- Logo -->
+    <a href={lang === 'he' ? '/he' : '/'} class="flex-shrink-0">
+      <img
+        src="/images/logo.png"
+        alt="GRAT Holdings"
+        class="h-12 md:h-16 w-auto"
+      />
+    </a>
+
+    <!-- Right side -->
+    <div class="flex items-center gap-3 md:gap-5">
+      <a href={altLangUrl} class="text-navy/50 hover:text-gold transition-colors text-sm md:text-base font-medium px-2 py-1 border border-navy/10 rounded hover:border-gold/40">
+        {altLangLabel}
+      </a>
+      <a href="#cta" class="bg-gold text-navy font-bold text-sm md:text-base px-5 py-2.5 md:px-7 md:py-3 rounded-lg hover:bg-gold-warm transition-all hover:shadow-lg hover:shadow-gold/20">
+        {ctaText}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('header');
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    if (header) {
+      if (currentScroll > 80) {
+        header.style.backgroundColor = 'rgba(240, 237, 229, 0.97)';
+        header.style.backdropFilter = 'blur(12px)';
+        header.style.boxShadow = '0 1px 3px rgba(11, 29, 58, 0.08)';
+      } else {
+        header.style.backgroundColor = 'rgba(240, 237, 229, 1)';
+        header.style.backdropFilter = 'none';
+        header.style.boxShadow = 'none';
+      }
+    }
+  });
+</script>

@@ -1,0 +1,39 @@
+---
+interface Props {
+  class?: string;
+  variant?: 'header' | 'footer';
+}
+
+const { class: className = '', variant = 'header' } = Astro.props;
+---
+
+{variant === 'header' ? (
+  <div class:list={["flex items-center gap-0", className]}>
+    <svg viewBox="0 0 44 48" fill="none" class="h-9 md:h-10 w-auto mr-2.5" aria-hidden="true">
+      <!-- Shield shape -->
+      <path d="M22 1L2 8v14c0 14 20 24 20 24s20-10 20-24V8L22 1z" fill="#0B1D3A" stroke="#C4A35A" stroke-width="1.5"/>
+      <!-- G -->
+      <text x="8" y="30" font-family="Montserrat, sans-serif" font-weight="800" font-size="16" fill="#C4A35A">G</text>
+      <!-- R -->
+      <text x="18" y="30" font-family="Montserrat, sans-serif" font-weight="800" font-size="16" fill="#F5F2EC">R</text>
+      <!-- A -->
+      <text x="28" y="30" font-family="Montserrat, sans-serif" font-weight="800" font-size="12" fill="#C4A35A">AT</text>
+      <!-- Skyline hint -->
+      <line x1="10" y1="6" x2="10" y2="2" stroke="#C4A35A" stroke-width="0.5" opacity="0.6"/>
+      <line x1="16" y1="6" x2="16" y2="1" stroke="#C4A35A" stroke-width="0.5" opacity="0.6"/>
+      <line x1="22" y1="6" x2="22" y2="0" stroke="#C4A35A" stroke-width="0.7" opacity="0.6"/>
+      <line x1="28" y1="6" x2="28" y2="1" stroke="#C4A35A" stroke-width="0.5" opacity="0.6"/>
+      <line x1="34" y1="6" x2="34" y2="2" stroke="#C4A35A" stroke-width="0.5" opacity="0.6"/>
+    </svg>
+    <span class="text-xl md:text-2xl font-extrabold tracking-tight leading-none">
+      <span class="text-gold">GRAT</span>
+      <span class="text-offwhite/40 font-medium text-base md:text-lg ml-1">Holdings</span>
+    </span>
+  </div>
+) : (
+  <div class:list={["flex flex-col items-center md:items-start gap-3", className]}>
+    <img src="/images/logo.png" alt="GRAT Holdings" class="h-20 md:h-24 w-auto" />
+    <p class="text-gray-light/50 text-base">GRAT Holdings LLC</p>
+    <p class="text-gray-light/40 text-sm">Chicago, Illinois</p>
+  </div>
+)}

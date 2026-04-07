@@ -1,0 +1,170 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'NEXT STEP',
+    h2: "Let's see if this is right for you.",
+    sub: "Book a short intro call. We'll walk you through the process, answer your questions, and see if there's a fit. No pressure.",
+    fields: {
+      name: 'Full Name',
+      email: 'Email',
+      phone: 'Phone (with country code)',
+      budget: 'Investment Budget',
+      budgetOptions: ['$50K - $100K', '$100K - $200K', '$200K - $500K', '$500K+'],
+      message: 'Anything you\'d like us to know?',
+    },
+    cta: 'Book an Intro Call',
+    privacy: 'Your information is confidential. We do not share data with third parties.',
+    success: "Thank you. We'll reach out within 48 hours to schedule your intro call.",
+  },
+  he: {
+    eyebrow: 'הצעד הבא',
+    h2: 'מעניין אותך? בוא נדבר.',
+    sub: 'שיחה קצרה. נסביר איך זה עובד בפועל, נענה על כל מה שמטריד אותך, ונבין אם יש פה התאמה. בלי לחץ. בלי התחייבות.',
+    fields: {
+      name: 'שם מלא',
+      email: 'אימייל',
+      phone: 'טלפון (עם קידומת)',
+      budget: 'תקציב השקעה',
+      budgetOptions: ['$50K - $100K', '$100K - $200K', '$200K - $500K', '$500K+'],
+      message: 'משהו שתרצה שנדע?',
+    },
+    cta: 'לקביעת שיחה',
+    privacy: 'המידע שלך נשאר אצלנו. נקודה.',
+    success: 'תודה. ניצור קשר תוך 48 שעות לקביעת שיחת ההיכרות שלך.',
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section id="cta" class="bg-charcoal py-20 md:py-28 lg:py-32">
+  <div class="max-w-[600px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-10 md:mb-12 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
+        {t.h2}
+      </h2>
+      <p class="text-gray-light text-base md:text-lg leading-relaxed">
+        {t.sub}
+      </p>
+    </div>
+
+    <form
+      id="grat-form"
+      class="border border-gold/20 rounded-sm p-6 md:p-8 bg-navy-dark/40 fade-in"
+      style="transition-delay: 150ms"
+    >
+      <!-- Honeypot -->
+      <div class="hidden" aria-hidden="true">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm text-gray-light mb-1.5">{t.fields.name} *</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full bg-navy/60 border border-gold/10 rounded-sm px-4 py-3.5 text-offwhite placeholder:text-gray-light/30 text-base focus:border-gold transition-colors"
+          />
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm text-gray-light mb-1.5">{t.fields.email} *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full bg-navy/60 border border-gold/10 rounded-sm px-4 py-3.5 text-offwhite placeholder:text-gray-light/30 text-base focus:border-gold transition-colors"
+          />
+        </div>
+
+        <div>
+          <label for="phone" class="block text-sm text-gray-light mb-1.5">{t.fields.phone} *</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+            class="w-full bg-navy/60 border border-gold/10 rounded-sm px-4 py-3.5 text-offwhite placeholder:text-gray-light/30 text-base focus:border-gold transition-colors"
+          />
+        </div>
+
+        <div>
+          <label for="budget" class="block text-sm text-gray-light mb-1.5">{t.fields.budget}</label>
+          <select
+            id="budget"
+            name="budget"
+            class="w-full bg-navy/60 border border-gold/10 rounded-sm px-4 py-3.5 text-offwhite text-base focus:border-gold transition-colors appearance-none cursor-pointer"
+          >
+            <option value="" class="bg-navy"></option>
+            {t.fields.budgetOptions.map((opt) => (
+              <option value={opt} class="bg-navy">{opt}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label for="message" class="block text-sm text-gray-light mb-1.5">{t.fields.message}</label>
+          <textarea
+            id="message"
+            name="message"
+            rows={3}
+            class="w-full bg-navy/60 border border-gold/10 rounded-sm px-4 py-3.5 text-offwhite placeholder:text-gray-light/30 text-base focus:border-gold transition-colors resize-none"
+          ></textarea>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-gold text-navy font-bold text-base md:text-lg px-8 py-4 rounded-sm hover:bg-gold-warm transition-colors mt-6 active:scale-[0.98]"
+      >
+        {t.cta}
+      </button>
+
+      <p class="text-gray-light/40 text-xs text-center mt-4">
+        {t.privacy}
+      </p>
+    </form>
+
+    <!-- Success message (hidden by default) -->
+    <div id="form-success" class="hidden text-center py-12">
+      <div class="w-16 h-16 rounded-full border-2 border-gold flex items-center justify-center mx-auto mb-6">
+        <svg class="w-8 h-8 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <p class="text-offwhite text-lg font-semibold">{t.success}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('grat-form') as HTMLFormElement;
+  const success = document.getElementById('form-success');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // In production, replace with actual form submission (Make webhook, Formspree, etc.)
+    // For now, show success state
+    const formData = new FormData(form);
+    console.log('Form submitted:', Object.fromEntries(formData));
+
+    form.style.display = 'none';
+    if (success) {
+      success.classList.remove('hidden');
+    }
+  });
+</script>

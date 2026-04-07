@@ -1,0 +1,44 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    stats: [
+      { value: '15', suffix: '+', label: 'Completed Projects' },
+      { value: '30', suffix: '%+', label: 'Average ROI' },
+      { value: '5', suffix: '', label: 'Months Avg. Cycle' },
+      { value: '50', prefix: '$', suffix: 'K', label: 'Minimum Entry' },
+    ],
+  },
+  he: {
+    stats: [
+      { value: '15', suffix: '+', label: 'פרויקטים שהושלמו' },
+      { value: '30', suffix: '%+', label: 'תשואה ממוצעת' },
+      { value: '5', suffix: '', label: 'חודשים מחזור ממוצע' },
+      { value: '50', prefix: '$', suffix: 'K', label: 'סכום כניסה מינימלי' },
+    ],
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section class="bg-navy border-y border-gold/10 py-16 md:py-20">
+  <div class="max-w-[1000px] mx-auto px-5 md:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
+      {t.stats.map((stat, i) => (
+        <div class="text-center fade-in" style={`transition-delay: ${i * 100}ms`}>
+          <div class="text-gold text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 leading-none">
+            <span>{stat.prefix || ''}</span>
+            <span class="count-up" data-target={stat.value} data-prefix={stat.prefix || ''} data-suffix={stat.suffix}>{stat.prefix || ''}{stat.value}{stat.suffix}</span>
+          </div>
+          <p class="text-gray-light text-sm md:text-base">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

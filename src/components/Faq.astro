@@ -1,0 +1,110 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'COMMON QUESTIONS',
+    h2: 'Everything you want to know before investing.',
+    faqs: [
+      {
+        q: 'What is the minimum investment amount?',
+        a: 'The minimum entry point is $50,000. Most of our investors start between $50K and $200K.',
+      },
+      {
+        q: 'How long does a typical investment cycle take?',
+        a: 'From acquisition to exit, a typical cycle takes 4 to 7 months. This includes purchase, renovation and sale or refinance.',
+      },
+      {
+        q: 'Do I need to be in Chicago to invest?',
+        a: 'No. Our team handles everything on the ground. You receive regular updates and full documentation, but you don\'t need to travel or be involved in day-to-day operations.',
+      },
+      {
+        q: 'How are my funds protected?',
+        a: 'All funds are held in escrow through a licensed U.S. title company. We work with insured contractors and maintain full legal compliance at every step.',
+      },
+      {
+        q: 'What types of properties do you invest in?',
+        a: 'We focus primarily on single-family flips in Chicago. We also work with multi-family properties and select long-term rental opportunities.',
+      },
+      {
+        q: 'What kind of returns can I expect?',
+        a: 'Returns vary by project. Our completed projects have shown ROI in the 30% to 40% range, but past performance does not guarantee future results. Every deal is different.',
+      },
+      {
+        q: 'Can I invest as a non-U.S. citizen?',
+        a: 'Yes. We work with Israeli investors and handle the cross-border structure including U.S. legal requirements and tax considerations.',
+      },
+    ],
+  },
+  he: {
+    eyebrow: 'שאלות נפוצות',
+    h2: 'כל מה שרצית לדעת לפני שמשקיעים.',
+    faqs: [
+      {
+        q: 'מה סכום ההשקעה המינימלי?',
+        a: 'נקודת הכניסה המינימלית היא $50,000. רוב המשקיעים שלנו מתחילים בין $50K ל-$200K.',
+      },
+      {
+        q: 'כמה זמן לוקח מחזור השקעה טיפוסי?',
+        a: 'מרכישה ועד יציאה, מחזור טיפוסי לוקח 4 עד 7 חודשים. זה כולל רכישה, שיפוץ ומכירה או מימון מחדש.',
+      },
+      {
+        q: 'האם אני צריך להיות בשיקגו כדי להשקיע?',
+        a: 'לא. הצוות שלנו מנהל הכל בשטח. אתה מקבל עדכונים שוטפים ותיעוד מלא, אבל אתה לא צריך לטוס או להיות מעורב בתפעול השוטף.',
+      },
+      {
+        q: 'איך הכסף שלי מוגן?',
+        a: 'כל הכספים מוחזקים בנאמנות דרך חברת טייטל מורשית בארה"ב. אנחנו עובדים עם קבלנים מבוטחים ושומרים על עמידה מלאה בחוק בכל שלב.',
+      },
+      {
+        q: 'באילו סוגי נכסים אתם משקיעים?',
+        a: 'אנחנו מתמקדים בעיקר בפליפים של בתים צמודי קרקע בשיקגו. אנחנו גם עובדים עם נכסים מרובי דירות והזדמנויות השכרה לטווח ארוך.',
+      },
+      {
+        q: 'איזו תשואה אפשר לצפות?',
+        a: 'התשואות משתנות מפרויקט לפרויקט. הפרויקטים שהשלמנו הראו תשואה בטווח של 30% עד 40%, אבל ביצועי עבר לא מבטיחים תוצאות עתידיות. כל עסקה שונה.',
+      },
+      {
+        q: 'אפשר להשקיע בלי אזרחות אמריקאית?',
+        a: 'כן. אנחנו עובדים עם משקיעים ישראלים ומטפלים בכל המבנה החוצה גבולות, כולל דרישות משפטיות ושיקולי מס בארה"ב.',
+      },
+    ],
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section class="bg-[#EDE9E0] text-navy py-20 md:py-28 lg:py-32">
+  <div class="max-w-[800px] mx-auto px-5 md:px-8">
+    <div class="text-center mb-12 md:mb-16 fade-in">
+      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        {t.eyebrow}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+        {t.h2}
+      </h2>
+    </div>
+
+    <div class="space-y-3 fade-in" style="transition-delay: 150ms">
+      {t.faqs.map((faq, i) => (
+        <details class="group border border-navy/10 rounded-lg overflow-hidden bg-white/60 hover:border-navy/20 transition-colors shadow-sm">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-base md:text-lg font-semibold text-navy list-none">
+            <span class={lang === 'he' ? 'text-right' : ''}>{faq.q}</span>
+            <svg class="w-5 h-5 text-gold flex-shrink-0 ml-4 transform transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </summary>
+          <div class="px-6 pb-5 text-navy/70 text-base md:text-lg leading-relaxed border-t border-navy/5 pt-4">
+            {faq.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

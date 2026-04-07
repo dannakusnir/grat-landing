@@ -1,0 +1,73 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const content = {
+  en: {
+    eyebrow: 'STRUCTURED REAL ESTATE INVESTMENT',
+    h1_1: 'Your entry point into',
+    h1_2: 'U.S. real estate.',
+    sub: 'GRAT Holdings creates clear investment paths into Chicago residential real estate. Starting at $50K.',
+    cta: "Let's Talk About Your First Investment",
+    micro: 'A short intro call, no commitment.',
+  },
+  he: {
+    eyebrow: 'נדל"ן אמריקאי. גישה ישראלית.',
+    h1_1: 'הכסף שלך.',
+    h1_2: 'המבנה שלנו.',
+    sub: 'GRAT Holdings מנהלת השקעות נדל"ן בשיקגו, מרכישה ועד מכירה. החל מ-$50K.',
+    cta: 'רוצה להבין אם זה מתאים לך?',
+    micro: 'שיחה קצרה, אפס מחויבות.',
+  },
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background -->
+  <div class="absolute inset-0">
+    <div class="absolute inset-0 bg-navy-dark ken-burns">
+      <img
+        src="/images/hero-bg.jpg"
+        alt=""
+        class="w-full h-full object-cover opacity-50"
+        loading="eager"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#2a4a7a]/60 via-[#1e3d6b]/55 to-navy"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-[1200px] mx-auto px-5 md:px-8 text-center pt-20 pb-16">
+    <p class="text-gold text-base md:text-xl tracking-[0.2em] uppercase font-semibold mb-6 md:mb-8">
+      {t.eyebrow}
+    </p>
+
+    <h1 class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-[1.08] mb-6 md:mb-8">
+      <span class="block">{t.h1_1}</span>
+      <span class="block">{t.h1_2}</span>
+    </h1>
+
+    <p class="text-gray-light text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed">
+      {t.sub}
+    </p>
+
+    <a
+      href="#cta"
+      class="inline-block bg-gold text-navy font-bold text-base md:text-lg px-8 py-4 md:px-10 md:py-4 rounded hover:bg-gold-warm transition-colors w-full md:w-auto"
+    >
+      {t.cta}
+    </a>
+
+    <p class="text-gray-light/60 text-sm mt-4">
+      {t.micro}
+    </p>
+  </div>
+
+  <!-- Bottom gold line -->
+  <div class="absolute bottom-0 left-0 right-0 h-px bg-gold/20"></div>
+</section>
