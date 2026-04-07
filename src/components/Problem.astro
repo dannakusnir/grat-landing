@@ -41,11 +41,11 @@ const content = {
 const t = content[lang as keyof typeof content];
 ---
 
-<section class="relative bg-navy-dark py-20 md:py-28 lg:py-32 overflow-hidden">
+<section id="problem" class="relative bg-navy-dark py-20 md:py-28 lg:py-32 overflow-hidden">
   <div class="relative z-10 max-w-[1200px] mx-auto px-5 md:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
       <!-- Text block -->
-      <div class="fade-in">
+      <div class="slide-in-left">
         <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
           {t.eyebrow}
         </p>
@@ -65,7 +65,7 @@ const t = content[lang as keyof typeof content];
       </div>
 
       <!-- Visual: Chaos vs Order comparison -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 fade-in" style="transition-delay: 200ms">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 slide-in-right" style="transition-delay: 200ms">
       <!-- Chaos side -->
       <div class="border border-red-500/20 bg-red-500/5 rounded-lg p-6 md:p-7">
         <div class="flex items-center gap-2 mb-4">

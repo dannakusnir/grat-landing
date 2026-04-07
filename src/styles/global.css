@@ -70,6 +70,95 @@
   transform: translateY(0);
 }
 
+/* Slide from left */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale up */
+.scale-up {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scale-up.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger children — apply to parent, children get sequential delays */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.stagger-children.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+.stagger-children.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 60ms; }
+.stagger-children.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 120ms; }
+.stagger-children.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 180ms; }
+.stagger-children.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
+.stagger-children.visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 300ms; }
+.stagger-children.visible > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 360ms; }
+.stagger-children.visible > *:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 420ms; }
+.stagger-children.visible > *:nth-child(9) { opacity: 1; transform: translateY(0); transition-delay: 480ms; }
+.stagger-children.visible > *:nth-child(10) { opacity: 1; transform: translateY(0); transition-delay: 540ms; }
+.stagger-children.visible > *:nth-child(11) { opacity: 1; transform: translateY(0); transition-delay: 600ms; }
+.stagger-children.visible > *:nth-child(12) { opacity: 1; transform: translateY(0); transition-delay: 660ms; }
+.stagger-children.visible > *:nth-child(13) { opacity: 1; transform: translateY(0); transition-delay: 720ms; }
+.stagger-children.visible > *:nth-child(14) { opacity: 1; transform: translateY(0); transition-delay: 780ms; }
+.stagger-children.visible > *:nth-child(15) { opacity: 1; transform: translateY(0); transition-delay: 840ms; }
+.stagger-children.visible > *:nth-child(16) { opacity: 1; transform: translateY(0); transition-delay: 900ms; }
+.stagger-children.visible > *:nth-child(17) { opacity: 1; transform: translateY(0); transition-delay: 960ms; }
+.stagger-children.visible > *:nth-child(18) { opacity: 1; transform: translateY(0); transition-delay: 1020ms; }
+.stagger-children.visible > *:nth-child(19) { opacity: 1; transform: translateY(0); transition-delay: 1080ms; }
+.stagger-children.visible > *:nth-child(20) { opacity: 1; transform: translateY(0); transition-delay: 1140ms; }
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(196, 163, 90, 0.15);
+}
+
+/* Pulse glow on CTA buttons */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196, 163, 90, 0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(196, 163, 90, 0.2); }
+}
+
+.cta-pulse {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.cta-pulse:hover {
+  animation: none;
+  box-shadow: 0 8px 24px rgba(196, 163, 90, 0.3);
+}
+
 /* Gold line draw-in */
 .gold-line {
   width: 0;
@@ -78,6 +167,28 @@
 
 .gold-line.visible {
   width: 100%;
+}
+
+/* Active nav indicator */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+  left: 0;
 }
 
 /* Ken Burns hero */
@@ -143,13 +254,22 @@ input:focus, select:focus, textarea:focus {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .fade-in {
+  .fade-in, .slide-in-left, .slide-in-right, .scale-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+  .stagger-children > * {
     opacity: 1;
     transform: none;
     transition: none;
   }
-  .ken-burns {
+  .ken-burns, .cta-pulse {
     animation: none;
+  }
+  .card-hover:hover {
+    transform: none;
   }
   html {
     scroll-behavior: auto;

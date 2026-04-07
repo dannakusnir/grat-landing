@@ -62,7 +62,7 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    document.querySelectorAll('.fade-in, .gold-line').forEach((el) => {
+    document.querySelectorAll('.fade-in, .gold-line, .slide-in-left, .slide-in-right, .scale-up, .stagger-children').forEach((el) => {
       observer.observe(el);
     });
 

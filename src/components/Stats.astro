@@ -27,11 +27,11 @@ const content = {
 const t = content[lang as keyof typeof content];
 ---
 
-<section class="bg-navy border-y border-gold/10 py-16 md:py-20">
+<section id="stats" class="bg-navy border-y border-gold/10 py-16 md:py-20">
   <div class="max-w-[1000px] mx-auto px-5 md:px-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
       {t.stats.map((stat, i) => (
-        <div class="text-center fade-in" style={`transition-delay: ${i * 100}ms`}>
+        <div class="text-center scale-up" style={`transition-delay: ${i * 100}ms`}>
           <div class="text-gold text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 leading-none">
             <span>{stat.prefix || ''}</span>
             <span class="count-up" data-target={stat.value} data-prefix={stat.prefix || ''} data-suffix={stat.suffix}>{stat.prefix || ''}{stat.value}{stat.suffix}</span>

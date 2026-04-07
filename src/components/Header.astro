@@ -12,6 +12,23 @@ const {
   altLangUrl = '/he',
   altLangLabel = 'עב'
 } = Astro.props;
+
+const navLinks = {
+  en: [
+    { label: 'Process', href: '#process' },
+    { label: 'Portfolio', href: '#portfolio' },
+    { label: 'Why GRAT', href: '#trust' },
+    { label: 'FAQ', href: '#faq' },
+  ],
+  he: [
+    { label: 'תהליך', href: '#process' },
+    { label: 'פרויקטים', href: '#portfolio' },
+    { label: 'למה GRAT', href: '#trust' },
+    { label: 'שאלות', href: '#faq' },
+  ],
+};
+
+const links = navLinks[lang as keyof typeof navLinks];
 ---
 
 <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#F0EDE5]">
@@ -25,21 +42,106 @@ const {
       />
     </a>
 
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="nav-link text-navy/70 hover:text-navy text-sm lg:text-base font-medium transition-colors py-1"
+          data-section={link.href.replace('#', '')}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
     <!-- Right side -->
-    <div class="flex items-center gap-3 md:gap-5">
+    <div class="flex items-center gap-3 md:gap-4">
       <a href={altLangUrl} class="text-navy/50 hover:text-gold transition-colors text-sm md:text-base font-medium px-2 py-1 border border-navy/10 rounded hover:border-gold/40">
         {altLangLabel}
       </a>
-      <a href="#cta" class="bg-gold text-navy font-bold text-sm md:text-base px-5 py-2.5 md:px-7 md:py-3 rounded-lg hover:bg-gold-warm transition-all hover:shadow-lg hover:shadow-gold/20">
+      <a href="#cta" class="hidden md:inline-block bg-gold text-navy font-bold text-sm lg:text-base px-5 py-2.5 lg:px-7 lg:py-3 rounded-lg hover:bg-gold-warm transition-all hover:shadow-lg hover:shadow-gold/20 cta-pulse">
         {ctaText}
       </a>
+
+      <!-- Mobile hamburger -->
+      <button
+        id="menu-toggle"
+        class="md:hidden relative w-10 h-10 flex items-center justify-center"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <span class="hamburger-line top-line"></span>
+        <span class="hamburger-line mid-line"></span>
+        <span class="hamburger-line bot-line"></span>
+      </button>
     </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden overflow-hidden transition-all duration-400 ease-out" style="max-height: 0;">
+    <nav class="flex flex-col px-5 pb-6 pt-2 bg-[#F0EDE5] border-t border-navy/5">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="mobile-nav-link text-navy/80 hover:text-gold text-lg font-medium py-3.5 border-b border-navy/5 transition-colors"
+          data-section={link.href.replace('#', '')}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="#cta" class="mt-4 bg-gold text-navy font-bold text-center text-base px-6 py-3.5 rounded-lg hover:bg-gold-warm transition-all cta-pulse">
+        {ctaText}
+      </a>
+    </nav>
   </div>
 </header>
 
+<style>
+  .hamburger-line {
+    position: absolute;
+    width: 22px;
+    height: 2px;
+    background-color: #0B1D3A;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius: 1px;
+  }
+
+  .top-line { transform: translateY(-7px); }
+  .mid-line { transform: translateY(0); }
+  .bot-line { transform: translateY(7px); }
+
+  .menu-open .top-line { transform: translateY(0) rotate(45deg); }
+  .menu-open .mid-line { opacity: 0; }
+  .menu-open .bot-line { transform: translateY(0) rotate(-45deg); }
+</style>
+
 <script>
   const header = document.getElementById('header');
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+  const navLinks = document.querySelectorAll('.nav-link');
 
+  // Hamburger toggle
+  menuToggle?.addEventListener('click', () => {
+    const isOpen = menuToggle.classList.toggle('menu-open');
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    if (mobileMenu) {
+      mobileMenu.style.maxHeight = isOpen ? mobileMenu.scrollHeight + 'px' : '0';
+    }
+  });
+
+  // Close mobile menu on link click
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      menuToggle?.classList.remove('menu-open');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      if (mobileMenu) mobileMenu.style.maxHeight = '0';
+    });
+  });
+
+  // Header scroll effect
   window.addEventListener('scroll', () => {
     const currentScroll = window.scrollY;
     if (header) {
@@ -54,4 +156,29 @@ const {
       }
     }
   });
+
+  // Active section highlighting
+  const sections = document.querySelectorAll('section[id]');
+
+  function updateActiveNav() {
+    const scrollY = window.scrollY + 150;
+
+    sections.forEach((section) => {
+      const top = (section as HTMLElement).offsetTop;
+      const height = (section as HTMLElement).offsetHeight;
+      const id = section.getAttribute('id');
+
+      if (scrollY >= top && scrollY < top + height) {
+        navLinks.forEach((link) => {
+          link.classList.toggle('active', link.getAttribute('data-section') === id);
+        });
+        mobileLinks.forEach((link) => {
+          link.classList.toggle('text-gold', link.getAttribute('data-section') === id);
+        });
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
 </script>

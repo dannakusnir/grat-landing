@@ -51,7 +51,7 @@ function formatMoney(n: number) {
 }
 ---
 
-<section class="bg-[#101c30] py-20 md:py-28 lg:py-32">
+<section id="portfolio" class="bg-[#101c30] py-20 md:py-28 lg:py-32">
   <div class="max-w-[1200px] mx-auto px-5 md:px-8">
     <div class="text-center mb-12 md:mb-16 fade-in">
       <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
@@ -64,7 +64,7 @@ function formatMoney(n: number) {
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
       {projects.map((p, i) => (
-        <div class="bg-navy-dark/60 border border-gold/10 rounded-lg overflow-hidden fade-in" style={`transition-delay: ${i * 150}ms`}>
+        <div class="bg-navy-dark/60 border border-gold/10 rounded-lg overflow-hidden scale-up card-hover" style={`transition-delay: ${i * 150}ms`}>
           {/* Before/After Slider */}
           <div class="ba-slider relative aspect-[4/3] overflow-hidden cursor-col-resize select-none" data-index={i}>
             <img src={p.after} alt="After" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
