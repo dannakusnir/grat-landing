@@ -46,7 +46,7 @@ const t = content[lang as keyof typeof content];
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
       <!-- Text block -->
       <div class="slide-in-left">
-        <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+        <p class="eyebrow-reveal text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
           {t.eyebrow}
         </p>
 
@@ -67,7 +67,7 @@ const t = content[lang as keyof typeof content];
       <!-- Visual: Chaos vs Order comparison -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 slide-in-right" style="transition-delay: 200ms">
       <!-- Chaos side -->
-      <div class="border border-red-500/20 bg-red-500/5 rounded-lg p-6 md:p-7">
+      <div class="border border-red-500/20 bg-red-500/5 rounded-lg p-6 md:p-7 hover:border-red-500/40 transition-all duration-300 hover:-translate-y-1">
         <div class="flex items-center gap-2 mb-4">
           <svg class="w-5 h-5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           <h3 class="text-red-400 font-bold text-lg">{t.chaos}</h3>
@@ -83,7 +83,7 @@ const t = content[lang as keyof typeof content];
       </div>
 
       <!-- Order side -->
-      <div class="border border-gold/30 bg-gold/5 rounded-lg p-6 md:p-7">
+      <div class="border border-gold/30 bg-gold/5 rounded-lg p-6 md:p-7 hover:border-gold/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gold/5">
         <div class="flex items-center gap-2 mb-4">
           <svg class="w-5 h-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
           <h3 class="text-gold font-bold text-lg">{t.order}</h3>

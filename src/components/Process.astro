@@ -35,27 +35,27 @@ const t = content[lang as keyof typeof content];
 
 <section id="process" class="bg-[#F5F2EC] text-navy py-20 md:py-28 lg:py-32">
   <div class="max-w-[1200px] mx-auto px-5 md:px-8">
-    <div class="text-center mb-14 md:mb-20 fade-in">
-      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+    <div class="text-center mb-14 md:mb-20">
+      <p class="eyebrow-reveal text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
         {t.eyebrow}
       </p>
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold fade-in" style="transition-delay: 100ms">
         {t.h2}
       </h2>
     </div>
 
     <!-- Timeline -->
     <div class="relative max-w-4xl mx-auto">
-      <!-- Desktop: horizontal gold line -->
-      <div class="hidden md:block absolute top-[44px] left-[12%] right-[12%] h-px bg-navy/15"></div>
+      <!-- Desktop: animated gold line -->
+      <div class="hidden md:block timeline-line left-[12%] right-[12%]" style="width: 76%;"></div>
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-6">
         {t.steps.map((step, i) => (
-          <div class="relative fade-in" style={`transition-delay: ${i * 200}ms`}>
+          <div class="relative fade-in" style={`transition-delay: ${300 + i * 200}ms`}>
             <div class="flex items-center gap-4 md:flex-col md:items-center mb-4 md:mb-6">
               <!-- Mobile: line connector -->
               {i > 0 && <div class="md:hidden absolute -top-5 left-6 w-px h-5 bg-gold/20"></div>}
-              <div class="relative z-10 w-14 h-14 md:w-[76px] md:h-[76px] rounded-full border-2 border-navy bg-navy flex items-center justify-center flex-shrink-0 shadow-lg shadow-navy/10">
+              <div class="circle-pop relative z-10 w-14 h-14 md:w-[76px] md:h-[76px] rounded-full border-2 border-navy bg-navy flex items-center justify-center flex-shrink-0 shadow-lg shadow-navy/10 hover:scale-110 transition-transform" style={`animation-delay: ${400 + i * 250}ms`}>
                 <span class="text-gold font-bold text-base md:text-lg">{step.num}</span>
               </div>
             </div>
@@ -69,7 +69,8 @@ const t = content[lang as keyof typeof content];
       </div>
     </div>
 
-    <p class="text-center text-navy/40 text-base mt-14 md:mt-20 fade-in">
+    <div class="divider-glow mt-14 md:mt-20"></div>
+    <p class="text-center text-navy/40 text-base mt-6 fade-in">
       {t.footer}
     </p>
   </div>

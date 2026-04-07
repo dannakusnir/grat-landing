@@ -47,11 +47,11 @@ const t = content[lang as keyof typeof content];
 
 <section id="who" class="bg-[#162b4a] py-20 md:py-28 lg:py-32">
   <div class="max-w-[1200px] mx-auto px-5 md:px-8">
-    <div class="text-center mb-12 md:mb-16 fade-in">
-      <p class="text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
+    <div class="text-center mb-12 md:mb-16">
+      <p class="eyebrow-reveal text-gold text-lg md:text-xl tracking-[0.2em] uppercase font-semibold mb-6">
         {t.eyebrow}
       </p>
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold">
+      <h2 class="fade-in text-3xl md:text-4xl lg:text-5xl font-extrabold" style="transition-delay: 100ms">
         {t.h2}
       </h2>
     </div>
@@ -61,7 +61,7 @@ const t = content[lang as keyof typeof content];
       <div class="slide-in-left">
         <ul class="space-y-4">
           {t.yes.map((item) => (
-            <li class="flex items-start gap-3">
+            <li class="flex items-start gap-3 hover:translate-x-1 transition-transform duration-200">
               <span class="text-gold flex-shrink-0 mt-0.5">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12" />
@@ -96,5 +96,5 @@ const t = content[lang as keyof typeof content];
   </div>
 
   <!-- Bottom gold line -->
-  <div class="mt-20 md:mt-28 mx-auto w-24 h-px bg-gold/30 gold-line"></div>
+  <div class="divider-glow mt-20 md:mt-28"></div>
 </section>

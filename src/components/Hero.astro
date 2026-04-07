@@ -41,15 +41,18 @@ const t = content[lang as keyof typeof content];
     <div class="absolute inset-0 bg-gradient-to-b from-[#2a4a7a]/60 via-[#1e3d6b]/55 to-navy"></div>
   </div>
 
+  <!-- Floating particles -->
+  <div id="hero-particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
   <!-- Content -->
   <div class="relative z-10 max-w-[1200px] mx-auto px-5 md:px-8 text-center pt-20 pb-16">
-    <p class="text-gold text-base md:text-xl tracking-[0.2em] uppercase font-semibold mb-6 md:mb-8 fade-in">
+    <p class="eyebrow-reveal text-gold text-base md:text-xl tracking-[0.2em] uppercase font-semibold mb-6 md:mb-8">
       {t.eyebrow}
     </p>
 
     <h1 class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-[1.08] mb-6 md:mb-8 fade-in" style="transition-delay: 200ms">
       <span class="block">{t.h1_1}</span>
-      <span class="block">{t.h1_2}</span>
+      <span class="block gold-shimmer">{t.h1_2}</span>
     </h1>
 
     <p class="text-gray-light text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed fade-in" style="transition-delay: 400ms">
@@ -58,7 +61,7 @@ const t = content[lang as keyof typeof content];
 
     <a
       href="#cta"
-      class="inline-block bg-gold text-navy font-bold text-base md:text-lg px-8 py-4 md:px-10 md:py-4 rounded hover:bg-gold-warm transition-colors w-full md:w-auto cta-pulse fade-in"
+      class="inline-block bg-gold text-navy font-bold text-base md:text-lg px-8 py-4 md:px-10 md:py-4 rounded hover:bg-gold-warm transition-all w-full md:w-auto cta-pulse fade-in hover:scale-105"
       style="transition-delay: 600ms"
     >
       {t.cta}
@@ -69,6 +72,35 @@ const t = content[lang as keyof typeof content];
     </p>
   </div>
 
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 scroll-indicator">
+    <svg class="w-6 h-10 text-gold/50" viewBox="0 0 24 40" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="1" y="1" width="22" height="38" rx="11" />
+      <circle cx="12" cy="12" r="3" fill="currentColor">
+        <animate attributeName="cy" values="10;18;10" dur="2s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  </div>
+
   <!-- Bottom gold line -->
   <div class="absolute bottom-0 left-0 right-0 h-px bg-gold/20"></div>
 </section>
+
+<script>
+  // Floating particles
+  const container = document.getElementById('hero-particles');
+  if (container) {
+    for (let i = 0; i < 15; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.bottom = Math.random() * 40 + '%';
+      p.style.animationDuration = (4 + Math.random() * 6) + 's';
+      p.style.animationDelay = (Math.random() * 5) + 's';
+      p.style.width = (2 + Math.random() * 3) + 'px';
+      p.style.height = p.style.width;
+      p.style.opacity = '0';
+      container.appendChild(p);
+    }
+  }
+</script>

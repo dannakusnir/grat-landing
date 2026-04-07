@@ -46,10 +46,25 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
   </style>
 </head>
 <body class="overflow-x-hidden">
+  <!-- Scroll progress bar -->
+  <div id="scroll-progress" class="scroll-progress"></div>
+
   <slot />
 
   <script>
-    // Intersection Observer for fade-in animations
+    // Scroll progress bar
+    const progressBar = document.getElementById('scroll-progress');
+
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      if (progressBar) {
+        progressBar.style.transform = `scaleX(${progress})`;
+      }
+    }
+
+    // Intersection Observer for all reveal animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -62,7 +77,9 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    document.querySelectorAll('.fade-in, .gold-line, .slide-in-left, .slide-in-right, .scale-up, .stagger-children').forEach((el) => {
+    document.querySelectorAll(
+      '.fade-in, .gold-line, .slide-in-left, .slide-in-right, .scale-up, .stagger-children, .eyebrow-reveal, .circle-pop, .timeline-line, .list-reveal'
+    ).forEach((el) => {
       observer.observe(el);
     });
 
@@ -95,6 +112,38 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
     document.querySelectorAll('.count-up').forEach((el) => {
       countObserver.observe(el);
     });
+
+    // Parallax on scroll (subtle background movement)
+    const parallaxElements = document.querySelectorAll('.parallax-bg');
+
+    function handleScroll() {
+      updateScrollProgress();
+
+      // Parallax
+      const scrollY = window.scrollY;
+      parallaxElements.forEach((el) => {
+        const rect = (el as HTMLElement).getBoundingClientRect();
+        const speed = 0.03;
+        const yPos = -(rect.top * speed);
+        (el as HTMLElement).style.transform = `translateY(${yPos}px)`;
+      });
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // Hide scroll indicator on scroll
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+          (scrollIndicator as HTMLElement).style.opacity = '0';
+          (scrollIndicator as HTMLElement).style.transition = 'opacity 0.5s ease';
+        } else {
+          (scrollIndicator as HTMLElement).style.opacity = '1';
+        }
+      }, { passive: true });
+    }
   </script>
 </body>
 </html>
