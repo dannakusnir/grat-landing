@@ -27,7 +27,7 @@ const content = {
 const t = content[lang as keyof typeof content];
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden section-wave" style="background: #0B1D3A;">
   <!-- Background -->
   <div class="absolute inset-0">
     <div class="absolute inset-0 bg-navy-dark ken-burns">
@@ -51,9 +51,11 @@ const t = content[lang as keyof typeof content];
     </p>
 
     <h1 class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-[1.08] mb-6 md:mb-8 fade-in" style="transition-delay: 200ms">
-      <span class="block">{t.h1_1}</span>
+      <span id="hero-typed" class="block"></span>
       <span class="block gold-shimmer">{t.h1_2}</span>
     </h1>
+    <!-- Hidden text for typewriter -->
+    <span id="hero-typed-source" class="hidden">{t.h1_1}</span>
 
     <p class="text-gray-light text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed fade-in" style="transition-delay: 400ms">
       {t.sub}
@@ -61,7 +63,7 @@ const t = content[lang as keyof typeof content];
 
     <a
       href="#cta"
-      class="inline-block bg-gold text-navy font-bold text-base md:text-lg px-8 py-4 md:px-10 md:py-4 rounded hover:bg-gold-warm transition-all w-full md:w-auto cta-pulse fade-in hover:scale-105"
+      class="magnetic-btn inline-block bg-gold text-navy font-bold text-base md:text-lg px-8 py-4 md:px-10 md:py-4 rounded hover:bg-gold-warm transition-all w-full md:w-auto cta-pulse fade-in hover:scale-105"
       style="transition-delay: 600ms"
     >
       {t.cta}
@@ -81,26 +83,46 @@ const t = content[lang as keyof typeof content];
       </circle>
     </svg>
   </div>
-
-  <!-- Bottom gold line -->
-  <div class="absolute bottom-0 left-0 right-0 h-px bg-gold/20"></div>
 </section>
 
 <script>
   // Floating particles
   const container = document.getElementById('hero-particles');
   if (container) {
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 20; i++) {
       const p = document.createElement('div');
       p.className = 'particle';
       p.style.left = Math.random() * 100 + '%';
-      p.style.bottom = Math.random() * 40 + '%';
-      p.style.animationDuration = (4 + Math.random() * 6) + 's';
-      p.style.animationDelay = (Math.random() * 5) + 's';
-      p.style.width = (2 + Math.random() * 3) + 'px';
+      p.style.bottom = Math.random() * 50 + '%';
+      p.style.animationDuration = (4 + Math.random() * 8) + 's';
+      p.style.animationDelay = (Math.random() * 6) + 's';
+      p.style.width = (2 + Math.random() * 4) + 'px';
       p.style.height = p.style.width;
       p.style.opacity = '0';
       container.appendChild(p);
     }
+  }
+
+  // Typewriter effect
+  const typedEl = document.getElementById('hero-typed');
+  const sourceEl = document.getElementById('hero-typed-source');
+  if (typedEl && sourceEl) {
+    const text = sourceEl.textContent || '';
+    let i = 0;
+    typedEl.classList.add('typewriter-cursor');
+
+    function type() {
+      if (i <= text.length) {
+        typedEl!.textContent = text.slice(0, i);
+        i++;
+        setTimeout(type, 60 + Math.random() * 40);
+      } else {
+        // Remove cursor after done
+        setTimeout(() => typedEl!.classList.remove('typewriter-cursor'), 1500);
+      }
+    }
+
+    // Start typing after a short delay
+    setTimeout(type, 800);
   }
 </script>

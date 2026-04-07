@@ -89,14 +89,14 @@ function formatMoney(n: number) {
             <h3 class="text-lg font-bold mb-1">{p.location}</h3>
             <p class="text-gray-light text-sm mb-4">{p.type}</p>
             <div class="space-y-2 text-sm font-mono">
-              <div class="flex justify-between"><span class="text-gray-light">{t.labels.purchase}</span><span>{formatMoney(p.purchase)}</span></div>
-              <div class="flex justify-between"><span class="text-gray-light">{t.labels.renovation}</span><span>{formatMoney(p.renovation)}</span></div>
-              <div class="flex justify-between"><span class="text-gray-light">{t.labels.total}</span><span>{formatMoney(p.total)}</span></div>
-              <div class="flex justify-between"><span class="text-gray-light">{t.labels.sale}</span><span>{formatMoney(p.sale)}</span></div>
+              <div class="data-row flex justify-between"><span class="text-gray-light">{t.labels.purchase}</span><span>{formatMoney(p.purchase)}</span></div>
+              <div class="data-row flex justify-between"><span class="text-gray-light">{t.labels.renovation}</span><span>{formatMoney(p.renovation)}</span></div>
+              <div class="data-row flex justify-between"><span class="text-gray-light">{t.labels.total}</span><span>{formatMoney(p.total)}</span></div>
+              <div class="data-row flex justify-between"><span class="text-gray-light">{t.labels.sale}</span><span>{formatMoney(p.sale)}</span></div>
               <div class="border-t border-gold/20 my-3"></div>
-              <div class="flex justify-between font-semibold"><span class="text-gray-light">{t.labels.net}</span><span>{formatMoney(p.net)}</span></div>
-              <div class="flex justify-between font-semibold"><span class="text-gray-light">{t.labels.roi}</span><span class="text-gold text-lg">{p.roi}%</span></div>
-              <div class="flex justify-between"><span class="text-gray-light">{t.labels.timeline}</span><span>{p.timeline} {t.labels.months}</span></div>
+              <div class="data-row flex justify-between font-semibold"><span class="text-gray-light">{t.labels.net}</span><span>{formatMoney(p.net)}</span></div>
+              <div class="data-row flex justify-between font-semibold"><span class="text-gray-light">{t.labels.roi}</span><span class="text-gold text-lg roi-glow cursor-default">{p.roi}%</span></div>
+              <div class="data-row flex justify-between"><span class="text-gray-light">{t.labels.timeline}</span><span>{p.timeline} {t.labels.months}</span></div>
             </div>
           </div>
         </div>

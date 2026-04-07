@@ -92,7 +92,7 @@ const t = content[lang as keyof typeof content];
 
     <div class="space-y-3 fade-in" style="transition-delay: 150ms">
       {t.faqs.map((faq, i) => (
-        <details class="group border border-navy/10 rounded-lg overflow-hidden bg-white/60 hover:border-navy/20 transition-colors shadow-sm">
+        <details class="faq-item group border border-navy/10 rounded-lg overflow-hidden bg-white/60 hover:border-navy/20 shadow-sm">
           <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-base md:text-lg font-semibold text-navy list-none">
             <span class={lang === 'he' ? 'text-right' : ''}>{faq.q}</span>
             <svg class="w-5 h-5 text-gold flex-shrink-0 ml-4 transform transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

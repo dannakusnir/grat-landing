@@ -144,6 +144,55 @@ const { title, description, lang = 'en', dir = 'ltr' } = Astro.props;
         }
       }, { passive: true });
     }
+
+    // Magnetic buttons — follow cursor within proximity
+    document.querySelectorAll('.magnetic-btn').forEach((btn) => {
+      const el = btn as HTMLElement;
+
+      el.addEventListener('mousemove', (e: Event) => {
+        const evt = e as MouseEvent;
+        const rect = el.getBoundingClientRect();
+        const x = evt.clientX - rect.left - rect.width / 2;
+        const y = evt.clientY - rect.top - rect.height / 2;
+        el.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+      });
+
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'translate(0, 0)';
+      });
+    });
+
+    // 3D tilt on cards
+    document.querySelectorAll('.tilt-card').forEach((card) => {
+      const el = card as HTMLElement;
+
+      el.addEventListener('mousemove', (e: Event) => {
+        const evt = e as MouseEvent;
+        const rect = el.getBoundingClientRect();
+        const x = (evt.clientX - rect.left) / rect.width - 0.5;
+        const y = (evt.clientY - rect.top) / rect.height - 0.5;
+        el.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
+        el.style.boxShadow = `${-x * 20}px ${y * 20}px 30px rgba(0,0,0,0.15)`;
+      });
+
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'perspective(800px) rotateY(0) rotateX(0) translateY(0)';
+        el.style.boxShadow = '';
+      });
+    });
+
+    // Parallax depth on section backgrounds
+    const sections = document.querySelectorAll('.parallax-section');
+    window.addEventListener('scroll', () => {
+      sections.forEach((section) => {
+        const rect = (section as HTMLElement).getBoundingClientRect();
+        const pattern = section.querySelector('.parallax-pattern') as HTMLElement;
+        if (pattern && rect.top < window.innerHeight && rect.bottom > 0) {
+          const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+          pattern.style.transform = `translateY(${(progress - 0.5) * 40}px)`;
+        }
+      });
+    }, { passive: true });
   </script>
 </body>
 </html>

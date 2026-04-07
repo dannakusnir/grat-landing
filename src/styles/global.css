@@ -134,14 +134,26 @@
 .stagger-children.visible > *:nth-child(19) { opacity: 1; transform: translateY(0); transition-delay: 1080ms; }
 .stagger-children.visible > *:nth-child(20) { opacity: 1; transform: translateY(0); transition-delay: 1140ms; }
 
-/* Card hover lift */
+/* Card hover lift with 3D tilt */
 .card-hover {
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .card-hover:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(196, 163, 90, 0.15);
+  transform: translateY(-8px) rotateX(2deg) rotateY(-1deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(196, 163, 90, 0.2);
+}
+
+/* 3D tilt — JS-driven via data attributes */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+}
+
+.tilt-card .tilt-inner {
+  transform: translateZ(20px);
 }
 
 /* Pulse glow on CTA buttons */
@@ -441,6 +453,137 @@ input, select, textarea {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Section wave separators */
+.section-wave {
+  position: relative;
+}
+
+.section-wave::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: inherit;
+  clip-path: polygon(0 40%, 25% 60%, 50% 35%, 75% 55%, 100% 30%, 100% 100%, 0 100%);
+  z-index: 2;
+}
+
+.section-angle-down {
+  position: relative;
+}
+
+.section-angle-down::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 100% 30%, 50% 100%, 0 30%);
+  z-index: 2;
+}
+
+/* Magnetic button — JS driven */
+.magnetic-btn {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+/* Typewriter cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typewriter-cursor::after {
+  content: '|';
+  animation: blink 0.8s step-end infinite;
+  color: var(--color-gold);
+  margin-left: 2px;
+  font-weight: 300;
+}
+
+/* Floating pill wobble */
+@keyframes pillFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.pill-float {
+  animation: pillFloat ease-in-out infinite;
+}
+
+.pill-float:hover {
+  animation-play-state: paused;
+}
+
+/* ROI highlight glow */
+.roi-glow {
+  transition: text-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.roi-glow:hover {
+  text-shadow: 0 0 20px rgba(196, 163, 90, 0.6), 0 0 40px rgba(196, 163, 90, 0.3);
+  transform: scale(1.1);
+}
+
+/* Quote card tilt */
+.quote-hover {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.quote-hover:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* FAQ accordion enhanced */
+details.faq-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+details.faq-item:hover {
+  transform: translateX(4px);
+  box-shadow: -4px 0 0 var(--color-gold), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[dir="rtl"] details.faq-item:hover {
+  transform: translateX(-4px);
+  box-shadow: 4px 0 0 var(--color-gold), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Data row highlight */
+.data-row {
+  transition: background 0.2s ease, padding-left 0.2s ease;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.data-row:hover {
+  background: rgba(196, 163, 90, 0.08);
+  padding-left: 8px;
+}
+
+[dir="rtl"] .data-row:hover {
+  padding-left: 4px;
+  padding-right: 8px;
+}
+
+/* Subtle section background movement */
+@keyframes bgDrift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.bg-drift {
+  background-size: 200% 200%;
+  animation: bgDrift 15s ease-in-out infinite;
+}
+
 /* Selection color */
 ::selection {
   background: rgba(196, 163, 90, 0.3);
@@ -463,7 +606,13 @@ input, select, textarea {
   .ken-burns, .cta-pulse, .glow-border, .gold-shimmer {
     animation: none;
   }
-  .scroll-indicator, .particle, .divider-glow {
+  .scroll-indicator, .particle, .divider-glow, .pill-float, .bg-drift {
+    animation: none;
+  }
+  .quote-hover:hover, details.faq-item:hover {
+    transform: none;
+  }
+  .typewriter-cursor::after {
     animation: none;
   }
   .timeline-line {
